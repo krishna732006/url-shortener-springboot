@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: #f4f6f8;
+        }
+
+        .navbar {
+            background: linear-gradient(to right, #667eea, #764ba2);
+            color: white;
+            padding: 15px 30px;
+            font-size: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80vh;
+        }
+
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            text-align: center;
+            width: 320px;
+        }
+
+        .btn {
+            display: block;
+            text-decoration: none;
+            padding: 12px;
+            margin: 12px 0;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .create {
+            background: linear-gradient(to right, #00c6ff, #0072ff);
+        }
+
+        .logout {
+            background: linear-gradient(to right, #ff416c, #ff4b2b);
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <div>URL Shortener Dashboard</div>
+    <div>Welcome</div>
+</div>
+
+<div class="container">
+    <div class="card">
+        <h2>Dashboard</h2>
+        <a class="btn create" href="/index.html">Create Short URL</a>
+        <a class="btn logout" href="/logout">Logout</a>
+    </div>
+</div>
+
+</body>
+</html>

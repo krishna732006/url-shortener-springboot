@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>URL Shortener</title>
     <style>
         body {
@@ -38,7 +39,6 @@
 
         button {
             padding: 12px 25px;
-            background: #00c6ff;
             background: linear-gradient(to right, #00c6ff, #0072ff);
             color: white;
             border: none;
@@ -114,9 +114,10 @@
 
         document.getElementById("status").innerText = "Generating short URL...";
 
-        let url = "http://localhost:8080/shorten?longUrl=" + longUrl;
+        // IMPORTANT: Use relative URL (for Render deployment)
+        let url = "/shorten?longUrl=" + encodeURIComponent(longUrl);
 
-        if (custom) url += "&custom=" + custom;
+        if (custom) url += "&custom=" + encodeURIComponent(custom);
         if (days) url += "&days=" + days;
 
         fetch(url)
@@ -129,9 +130,11 @@
 
                 document.getElementById("status").innerText = "Short URL created successfully!";
 
-                let shortCode = data.split("/r/")[1];
+                // Extract short code from URL
+                let shortCode = data.substring(data.lastIndexOf("/") + 1);
 
-                fetch("http://localhost:8080/analytics/" + shortCode)
+                // Fetch analytics
+                fetch("/analytics/" + shortCode)
                     .then(res => res.text())
                     .then(count => {
                         document.getElementById("analytics").innerHTML =
