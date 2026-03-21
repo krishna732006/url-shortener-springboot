@@ -23,10 +23,6 @@
             color: white;
         }
 
-        h2 {
-            margin-bottom: 20px;
-        }
-
         input {
             width: 90%;
             padding: 12px;
@@ -38,35 +34,22 @@
 
         button {
             padding: 12px 25px;
-            background: #00c6ff;
             background: linear-gradient(to right, #00c6ff, #0072ff);
             color: white;
             border: none;
             border-radius: 8px;
             cursor: pointer;
             margin-top: 10px;
-            transition: 0.3s;
-        }
-
-        button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 10px rgba(0,0,0,0.3);
-        }
-
-        #result {
-            margin-top: 20px;
-            font-weight: bold;
-            word-wrap: break-word;
-        }
-
-        #analytics {
-            margin-top: 10px;
-            color: #00ffcc;
         }
 
         .copy-btn {
             margin-top: 10px;
             background: #28a745;
+        }
+
+        #analytics {
+            margin-top: 10px;
+            color: #00ffcc;
         }
 
         .footer {
@@ -114,9 +97,10 @@
 
         document.getElementById("status").innerText = "Generating short URL...";
 
-        let url = "http://localhost:8080/shorten?longUrl=" + longUrl;
+        // FIXED: relative URL (important)
+        let url = "/shorten?longUrl=" + encodeURIComponent(longUrl);
 
-        if (custom) url += "&custom=" + custom;
+        if (custom) url += "&custom=" + encodeURIComponent(custom);
         if (days) url += "&days=" + days;
 
         fetch(url)
@@ -129,9 +113,10 @@
 
                 document.getElementById("status").innerText = "Short URL created successfully!";
 
-                let shortCode = data.split("/r/")[1];
+                // FIXED: get short code correctly
+                let shortCode = data.substring(data.lastIndexOf("/") + 1);
 
-                fetch("http://localhost:8080/analytics/" + shortCode)
+                fetch("/analytics/" + shortCode)
                     .then(res => res.text())
                     .then(count => {
                         document.getElementById("analytics").innerHTML =
