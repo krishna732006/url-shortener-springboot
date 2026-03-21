@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>URL Shortener</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            backdrop-filter: blur(15px);
+            background: rgba(255, 255, 255, 0.15);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            text-align: center;
+            width: 420px;
+            color: white;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 90%;
+            padding: 12px;
+            margin: 8px;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+        }
+
+        button {
+            padding: 12px 25px;
+            background: #00c6ff;
+            background: linear-gradient(to right, #00c6ff, #0072ff);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        }
+
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+            word-wrap: break-word;
+        }
+
+        #analytics {
+            margin-top: 10px;
+            color: #00ffcc;
+        }
+
+        .copy-btn {
+            margin-top: 10px;
+            background: #28a745;
+        }
+
+        .footer {
+            margin-top: 20px;
+            font-size: 13px;
+            color: #ddd;
+        }
+
+        .status {
+            margin-top: 10px;
+            font-size: 14px;
+            color: yellow;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>🔗 URL Shortener</h2>
+
+    <input type="text" id="longUrl" placeholder="Enter Long URL"><br>
+    <input type="text" id="custom" placeholder="Custom Short URL (optional)"><br>
+    <input type="number" id="days" placeholder="Expiry Days (optional)"><br>
+
+    <button onclick="shortenUrl()">Shorten URL</button>
+
+    <div class="status" id="status"></div>
+    <div id="result"></div>
+    <button class="copy-btn" onclick="copyUrl()">Copy Short URL</button>
+    <div id="analytics"></div>
+
+    <div class="footer">
+        <p>Developed by Krishna J</p>
+        <p>Spring Boot | Java | HTML | CSS | JavaScript</p>
+    </div>
+</div>
+
+<script>
+    let latestShortUrl = "";
+
+    function shortenUrl() {
+        let longUrl = document.getElementById("longUrl").value;
+        let custom = document.getElementById("custom").value;
+        let days = document.getElementById("days").value;
+
+        document.getElementById("status").innerText = "Generating short URL...";
+
+        let url = "http://localhost:8080/shorten?longUrl=" + longUrl;
+
+        if (custom) url += "&custom=" + custom;
+        if (days) url += "&days=" + days;
+
+        fetch(url)
+            .then(response => response.text())
+            .then(data => {
+                latestShortUrl = data;
+
+                document.getElementById("result").innerHTML =
+                    "Short URL: <a href='" + data + "' target='_blank' style='color:#00ffcc'>" + data + "</a>";
+
+                document.getElementById("status").innerText = "Short URL created successfully!";
+
+                let shortCode = data.split("/r/")[1];
+
+                fetch("http://localhost:8080/analytics/" + shortCode)
+                    .then(res => res.text())
+                    .then(count => {
+                        document.getElementById("analytics").innerHTML =
+                            "Clicks: " + count;
+                    });
+            });
+    }
+
+    function copyUrl() {
+        if (latestShortUrl) {
+            navigator.clipboard.writeText(latestShortUrl);
+            alert("Copied to clipboard!");
+        }
+    }
+</script>
+
+</body>
+</html>
