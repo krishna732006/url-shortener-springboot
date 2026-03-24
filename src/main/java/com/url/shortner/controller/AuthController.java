@@ -17,43 +17,46 @@ public class AuthController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    // Register Page
     @GetMapping("/register")
     public String registerPage() {
         return "register";
     }
 
-    // Register User
     @PostMapping("/register")
     public String register(User user, Model model) {
 
-        // Check if username already exists
         if (userRepo.findByUsername(user.getUsername()) != null) {
             model.addAttribute("error", "Username already exists!");
             return "register";
         }
 
-        // Password length check (optional but good)
         if (user.getPassword().length() < 4) {
             model.addAttribute("error", "Password must be at least 4 characters");
             return "register";
         }
 
-        // Encrypt password
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepo.save(user);
 
-        // After register → go to login
         return "redirect:/login";
     }
 
-    // Login Page
     @GetMapping("/login")
-    public String loginPage() {
+    public String loginPage(@RequestParam(value = "error", required = false) String error,
+                            @RequestParam(value = "logout", required = false) String logout,
+                            Model model) {
+
+        if (error != null) {
+            model.addAttribute("error", "Invalid username or password!");
+        }
+
+        if (logout != null) {
+            model.addAttribute("message", "You have been logged out!");
+        }
+
         return "login";
     }
 
-    // Dashboard Page
     @GetMapping("/dashboard")
     public String dashboard() {
         return "dashboard";

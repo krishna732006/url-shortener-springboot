@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>URL Shortener</title>
+    <title>Login</title>
     <style>
         body {
             font-family: 'Segoe UI', sans-serif;
@@ -16,16 +16,12 @@
         .container {
             backdrop-filter: blur(15px);
             background: rgba(255, 255, 255, 0.15);
-            padding: 30px;
+            padding: 35px;
             border-radius: 15px;
             box-shadow: 0 8px 32px rgba(0,0,0,0.2);
             text-align: center;
-            width: 420px;
+            width: 320px;
             color: white;
-        }
-
-        h2 {
-            margin-bottom: 20px;
         }
 
         input {
@@ -34,122 +30,45 @@
             margin: 8px;
             border-radius: 8px;
             border: none;
-            outline: none;
         }
 
         button {
-            padding: 12px 25px;
+            padding: 12px;
+            width: 95%;
             background: linear-gradient(to right, #00c6ff, #0072ff);
             color: white;
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            margin-top: 10px;
-            transition: 0.3s;
         }
 
-        button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 10px rgba(0,0,0,0.3);
-        }
-
-        #result {
-            margin-top: 20px;
-            font-weight: bold;
-            word-wrap: break-word;
-        }
-
-        #analytics {
-            margin-top: 10px;
-            color: #00ffcc;
-        }
-
-        .copy-btn {
-            margin-top: 10px;
-            background: #28a745;
-        }
-
-        .footer {
-            margin-top: 20px;
-            font-size: 13px;
-            color: #ddd;
-        }
-
-        .status {
-            margin-top: 10px;
+        .error {
+            color: #ffcccb;
             font-size: 14px;
-            color: yellow;
+        }
+
+        a {
+            color: #00ffcc;
+            text-decoration: none;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>URL Shortener</h2>
+    <h2>Login</h2>
 
-    <input type="text" id="longUrl" placeholder="Enter Long URL"><br>
-    <input type="text" id="custom" placeholder="Custom Short URL (optional)"><br>
-    <input type="number" id="days" placeholder="Expiry Days (optional)"><br>
+    <p class="error" th:if="${error}" th:text="${error}"></p>
+    <p class="error" th:if="${message}" th:text="${message}"></p>
 
-    <button onclick="shortenUrl()">Shorten URL</button>
+    <form method="post" action="/login">
+        <input type="text" name="username" placeholder="Username" required />
+        <input type="password" name="password" placeholder="Password" required />
+        <button type="submit">Login</button>
+    </form>
 
-    <div class="status" id="status"></div>
-    <div id="result"></div>
-    <button class="copy-btn" onclick="copyUrl()">Copy Short URL</button>
-    <div id="analytics"></div>
-
-    <div class="footer">
-        <p>Developed by Krishna J</p>
-        <p>Spring Boot | Java | HTML | CSS | JavaScript</p>
-    </div>
+    <p>Don't have an account? <a href="/register">Register</a></p>
 </div>
-
-<script>
-    let latestShortUrl = "";
-
-    function shortenUrl() {
-        let longUrl = document.getElementById("longUrl").value;
-        let custom = document.getElementById("custom").value;
-        let days = document.getElementById("days").value;
-
-        document.getElementById("status").innerText = "Generating short URL...";
-
-        // IMPORTANT: Use relative URL (for Render deployment)
-        let url = "/shorten?longUrl=" + encodeURIComponent(longUrl);
-
-        if (custom) url += "&custom=" + encodeURIComponent(custom);
-        if (days) url += "&days=" + days;
-
-        fetch(url)
-            .then(response => response.text())
-            .then(data => {
-                latestShortUrl = data;
-
-                document.getElementById("result").innerHTML =
-                    "Short URL: <a href='" + data + "' target='_blank' style='color:#00ffcc'>" + data + "</a>";
-
-                document.getElementById("status").innerText = "Short URL created successfully!";
-
-                // Extract short code from URL
-                let shortCode = data.substring(data.lastIndexOf("/") + 1);
-
-                // Fetch analytics
-                fetch("/analytics/" + shortCode)
-                    .then(res => res.text())
-                    .then(count => {
-                        document.getElementById("analytics").innerHTML =
-                            "Clicks: " + count;
-                    });
-            });
-    }
-
-    function copyUrl() {
-        if (latestShortUrl) {
-            navigator.clipboard.writeText(latestShortUrl);
-            alert("Copied to clipboard!");
-        }
-    }
-</script>
 
 </body>
 </html>
