@@ -26,7 +26,7 @@ A full stack URL shortener web application built using Spring Boot, H2 Database,
 4. Open browser: http://localhost:8080
 
 ## Live Demo
-https://your-render-link
+https://url-shortener-springboot-b0xf.onrender.com
 
 ## API Endpoints
 POST /shorten
