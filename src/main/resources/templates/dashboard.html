@@ -4,58 +4,41 @@
     <title>Dashboard</title>
     <style>
         body {
-            font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            font-family: Arial;
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
-        .container {
-            backdrop-filter: blur(15px);
-            background: rgba(255, 255, 255, 0.15);
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        .box {
+            border: 1px solid #ccc;
+            padding: 25px;
+            width: 260px;
             text-align: center;
-            width: 350px;
-            color: white;
-        }
-
-        h2 {
-            margin-bottom: 25px;
         }
 
         a {
             display: block;
-            margin: 15px 0;
-            padding: 12px;
-            background: linear-gradient(to right, #00c6ff, #0072ff);
-            color: white;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #333;
             text-decoration: none;
-            border-radius: 8px;
-            transition: 0.3s;
+            color: black;
         }
 
         a:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 10px rgba(0,0,0,0.3);
-        }
-
-        .logout {
-            background: linear-gradient(to right, #ff416c, #ff4b2b);
+            background-color: #f0f0f0;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
+<div class="box">
     <h2>Dashboard</h2>
 
     <a href="/home">Create Short URL</a>
-
-    <a href="/logout" class="logout">Logout</a>
+    <a href="/logout">Logout</a>
 </div>
 
 </body>
