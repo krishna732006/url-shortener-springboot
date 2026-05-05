@@ -1,36 +1,23 @@
-# URL Shortener - Spring Boot
+# URL Shortener — Spring Boot
 
-A full stack URL shortener web application built using Spring Boot, H2 Database, HTML, CSS.
+A full-stack URL shortening service built with Spring Boot, H2 (in-memory DB), and a simple HTML/CSS frontend. Deployed live on Render.
 
 ## Features
-- User can enter long URL
-- Generates short URL
-- Redirects to original URL
-- Simple UI
-- REST API
-- H2 Database
+- Generates unique short codes for any long URL
+- Redirects users from short URL to the original
+- Tracks how many times each link has been clicked
+- Lightweight frontend served via Thymeleaf
 
 ## Tech Stack
-- Java
-- Spring Boot
-- Spring Data JPA
-- H2 Database
-- HTML, CSS
-- Maven
-- Render (Deployment)
+- Java 17, Spring Boot
+- Spring Data JPA, H2 Database
+- Thymeleaf, HTML/CSS
+- Deployed on Render
 
-## How to Run Locally
-1. Clone the repo
-2. Open in IntelliJ
-3. Run UrlShortenerApplication.java
-4. Open browser: http://localhost:8080
-
-## Live Demo
-https://url-shortener-springboot-b0xf.onrender.com
-
-## API Endpoints
-POST /shorten
-GET /{shortUrl}
-
-## Author
-Krishna J
+## Running Locally
+```bash
+git clone https://github.com/krishna732006/url-shortener-springboot
+cd url-shortener-springboot
+./mvnw spring-boot:run
+```
+Open `http://localhost:8080` in your browser.
